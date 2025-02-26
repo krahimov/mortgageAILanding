@@ -3,6 +3,7 @@
 import { DemoDialog } from "@/components/demo-dialog";
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export function Hero() {
   return (
@@ -16,6 +17,12 @@ export function Hero() {
             Transform your mortgage application process with our AI-powered platform. 
             Faster approvals, fewer errors, happier customers.
           </p>
+          <div className="flex items-center justify-center mb-8">
+            <span className="text-sm text-muted-foreground border border-border rounded-full px-4 py-1 flex items-center">
+              <span className="mr-2">Backed by</span>
+              <Image src="/antler-logo.png" alt="Antler Logo" width={20} height={5} />
+            </span>
+          </div>
           <DemoDialog>
             <Button size="lg" className="bg-primary hover:bg-primary/90">
               Request Demo <Send className="ml-2 h-4 w-4" />
