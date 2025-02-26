@@ -6,7 +6,7 @@ import { Providers } from '@/components/providers';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'MortgageAI - Revolutionizing Mortgage Processing with AI',
+  title: 'MortgageAI - Process mortgages 10x faster with AI',
   description: 'Transform your mortgage application process with our AI-powered platform. Faster approvals, fewer errors, happier customers.',
 };
 

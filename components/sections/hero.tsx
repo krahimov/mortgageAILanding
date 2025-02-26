@@ -10,7 +10,7 @@ export function Hero() {
       <div className="container px-4 mx-auto max-w-6xl">
         <div className="text-center mb-16">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-600">
-            Revolutionizing Mortgage Processing with AI
+            Process mortgages 10x faster with MortgageAI
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Transform your mortgage application process with our AI-powered platform. 
