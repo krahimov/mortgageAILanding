@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, Dialog
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
 
 export function DemoDialog({ children }: { children: React.ReactNode }) {
   const [formData, setFormData] = useState({
@@ -13,12 +14,46 @@ export function DemoDialog({ children }: { children: React.ReactNode }) {
     company: "",
     role: ""
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+  const { toast } = useToast();
 
-  const handleDemoRequest = (e: React.FormEvent) => {
+  const handleDemoRequest = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle demo request submission
-    console.log("Demo requested:", formData);
-    setFormData({ name: "", email: "", company: "", role: "" });
+    setIsLoading(true);
+    
+    try {
+      // Simulate API call with a delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      
+      // For production, you would use a real API endpoint or form submission service
+      // Examples: 
+      // - Email services: SendGrid, Mailchimp, etc.
+      // - Form backends: Formspree, Netlify Forms, GetForm, FormKeep
+      // - Direct integrations with CRMs like HubSpot or Salesforce
+      console.log("Demo requested:", formData);
+      
+      // Reset form and show success message
+      setFormData({ name: "", email: "", company: "", role: "" });
+      toast({
+        title: "Success!",
+        description: "Your demo request has been received. We'll contact you shortly.",
+        duration: 5000,
+      });
+      
+      // Close the dialog
+      setOpen(false);
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({
+        title: "Something went wrong",
+        description: "We couldn't process your request. Please try again.",
+        variant: "destructive",
+        duration: 5000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +64,7 @@ export function DemoDialog({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children}
       </DialogTrigger>
@@ -50,6 +85,7 @@ export function DemoDialog({ children }: { children: React.ReactNode }) {
               value={formData.name}
               onChange={handleChange}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -62,6 +98,7 @@ export function DemoDialog({ children }: { children: React.ReactNode }) {
               value={formData.email}
               onChange={handleChange}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -73,6 +110,7 @@ export function DemoDialog({ children }: { children: React.ReactNode }) {
               value={formData.company}
               onChange={handleChange}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -84,10 +122,11 @@ export function DemoDialog({ children }: { children: React.ReactNode }) {
               value={formData.role}
               onChange={handleChange}
               required
+              disabled={isLoading}
             />
           </div>
-          <Button type="submit" className="w-full">
-            Schedule Demo
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Processing..." : "Schedule Demo"}
           </Button>
         </form>
       </DialogContent>
