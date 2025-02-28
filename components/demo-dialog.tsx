@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import { sendConfirmationEmail } from "@/lib/email";
 
 export function DemoDialog({ children }: { children: React.ReactNode }) {
   const [formData, setFormData] = useState({
@@ -33,11 +34,25 @@ export function DemoDialog({ children }: { children: React.ReactNode }) {
       // - Direct integrations with CRMs like HubSpot or Salesforce
       console.log("Demo requested:", formData);
       
+      // Send confirmation email to the user
+      try {
+        await sendConfirmationEmail({
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          role: formData.role
+        });
+        console.log("Confirmation email sent to", formData.email);
+      } catch (emailError) {
+        console.error("Error sending confirmation email:", emailError);
+        // We'll continue with the form submission even if email fails
+      }
+      
       // Reset form and show success message
       setFormData({ name: "", email: "", company: "", role: "" });
       toast({
         title: "Success!",
-        description: "Your demo request has been received. We'll contact you shortly.",
+        description: "Your demo request has been received. We'll contact you shortly and have sent a confirmation to your email.",
         duration: 5000,
       });
       
